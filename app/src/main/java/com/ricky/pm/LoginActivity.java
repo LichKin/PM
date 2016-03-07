@@ -39,6 +39,9 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 name = edtName.getText().toString().trim();
                 pwd = edtPwd.getText().toString().trim();
+                if(!validateInput(name,pwd)){
+                    showToast("Name or password is empty!");
+                }
                 User user = userDao.get(name);
                 if(user!=null){
                     if(user.getPassword().equals(pwd)){
@@ -57,6 +60,11 @@ public class LoginActivity extends Activity {
         });
     }
 
+    /**
+     * Initialise user info
+     * origin count：ricky
+     * origin password：123123
+     */
     private void initUser(){
         if(userDao==null){
             userDao = new UserDao(this);
@@ -65,6 +73,19 @@ public class LoginActivity extends Activity {
         if(user==null){
             userDao.add(new User("ricky","123123"));
         }
+    }
+
+    /**
+     * Verify the inputs
+     * @param name
+     * @param pwd
+     * @return
+     */
+    private boolean validateInput(String name,String pwd){
+        if(name==null||pwd==null||name.equals("")||pwd.equals("")){
+            return false;
+        }
+        return true;
     }
 
     private void showToast(String msg){

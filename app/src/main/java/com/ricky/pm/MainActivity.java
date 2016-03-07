@@ -3,9 +3,12 @@ package com.ricky.pm;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -67,6 +70,17 @@ public class MainActivity extends Activity {
     }
 
     private void setEvent() {
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AppInfo appInfo = myAdapter.getItem(i);
+                Log.i("List item at:",i+"");
+                Intent in = new Intent(MainActivity.this,DetailedActivity.class);
+                in.putExtra("appinfo",appInfo);
+                startActivity(in);
+            }
+        });
 
         txtAdd.setOnClickListener(new View.OnClickListener() {
             @Override

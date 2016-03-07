@@ -3,11 +3,13 @@ package com.ricky.pm.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 /**
  * Created by liqi on 16/3/4.
  */
 @DatabaseTable(tableName = "db_appinfo")
-public class AppInfo {
+public class AppInfo implements Serializable{
 
     @DatabaseField(generatedId = true)
     private int id;

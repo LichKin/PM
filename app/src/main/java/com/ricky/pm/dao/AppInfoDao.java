@@ -37,11 +37,13 @@ public class AppInfoDao {
         }
     }
 
-    public void update(AppInfo appInfo){
+    public boolean update(AppInfo appInfo){
         try{
             appInfoDao.update(appInfo);
+            return true;
         }catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
 
     }

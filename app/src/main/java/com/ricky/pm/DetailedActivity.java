@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ricky.pm.dao.AppInfoDao;
 import com.ricky.pm.model.AppInfo;
@@ -62,7 +63,15 @@ public class DetailedActivity extends Activity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                appInfo.setAppname(edtName.getText().toString());
+                appInfo.setAppcount(edtCount.getText().toString());
+                appInfo.setApppassword(edtPwd.getText().toString());
+                if(appInfoDao.update(appInfo)){
+                    Toast.makeText(DetailedActivity.this,"update success!",Toast.LENGTH_SHORT).show();
+                    enableEdit(false);
+                }else{
+                    Toast.makeText(DetailedActivity.this,"update failed!",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -45,6 +45,12 @@ public class MainActivity extends Activity {
         setEvent();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshList();
+    }
+
     private void setView() {
 
         uid = getIntent().getIntExtra("userId", 0);
@@ -75,9 +81,9 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 AppInfo appInfo = myAdapter.getItem(i);
-                Log.i("List item at:",i+"");
-                Intent in = new Intent(MainActivity.this,DetailedActivity.class);
-                in.putExtra("appinfo",appInfo);
+                Log.i("List item at:", i + "");
+                Intent in = new Intent(MainActivity.this, DetailedActivity.class);
+                in.putExtra("appinfo", appInfo);
                 startActivity(in);
             }
         });
@@ -114,6 +120,10 @@ public class MainActivity extends Activity {
                 alertDialog.show();
             }
         });
+    }
+
+    private void refreshList() {
+        myAdapter.setItems(appInfoDao.listByUserId(uid));
     }
 
 

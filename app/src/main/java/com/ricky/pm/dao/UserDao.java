@@ -30,6 +30,11 @@ public class UserDao {
 
     }
 
+    /**
+     * add a new user
+     * @param user
+     * @return whether this operation is success
+     */
     public boolean add(User user){
         try{
             userDao.create(user);
@@ -41,6 +46,40 @@ public class UserDao {
         }
     }
 
+    /**
+     * update user info
+     * @param user
+     * @return
+     */
+    public boolean update(User user){
+        try{
+            userDao.update(user);
+            return true;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    /**
+     * get all users stored in current device
+     * @return
+     */
+    public List<User> getAll(){
+        try{
+            return userDao.queryForAll();
+        }catch (SQLException e){
+            e.printStackTrace();
+            return  null;
+        }
+    }
+
+    /**
+     * get userinfo by name
+     * @param name
+     * @return
+     */
     public User get(String name){
 
         try{
@@ -56,6 +95,11 @@ public class UserDao {
         return null;
     }
 
+    /**
+     * get userinfo by id
+     * @param id
+     * @return
+     */
     public User getUserById(int id){
         try{
             return userDao.queryForId(id);

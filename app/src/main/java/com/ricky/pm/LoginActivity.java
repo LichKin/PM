@@ -3,6 +3,7 @@ package com.ricky.pm;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +12,11 @@ import android.widget.Toast;
 import com.ricky.pm.dao.UserDao;
 import com.ricky.pm.model.User;
 
+import java.util.List;
+
 public class LoginActivity extends Activity {
+
+    private static final String TAG = "Login";
 
     private EditText edtName,edtPwd;
     private Button btnLogin;
@@ -39,20 +44,21 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 name = edtName.getText().toString().trim();
                 pwd = edtPwd.getText().toString().trim();
-                if(!validateInput(name,pwd)){
+                if (!validateInput(name, pwd)) {
                     showToast("Name or password is empty!");
                 }
                 User user = userDao.get(name);
-                if(user!=null){
-                    if(user.getPassword().equals(pwd)){
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        intent.putExtra("userId",user.getId());
+                if (user != null) {
+                    Log.i("UserInfo", user.getId() + "," + user.getName() + "," + user.getPassword());
+                    if (user.getPassword().equals(pwd)) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("user", user);
                         startActivity(intent);
                         LoginActivity.this.finish();
-                    }else{
+                    } else {
                         showToast("Error password!");
                     }
-                }else{
+                } else {
                     showToast("No such user!");
                 }
 
@@ -69,9 +75,14 @@ public class LoginActivity extends Activity {
         if(userDao==null){
             userDao = new UserDao(this);
         }
-        User user = userDao.get("ricky");
-        if(user==null){
+        Log.d(TAG,userDao.getAll().toString());
+        if(userDao.getAll()==null||userDao.getAll().size()<=0){
             userDao.add(new User("ricky","123123"));
+        }else{
+            List<User> users = userDao.getAll();
+            for(User user:users){
+                Log.e(TAG,"name:"+user.getName()+";pwd:"+user.getPassword());
+            }
         }
     }
 

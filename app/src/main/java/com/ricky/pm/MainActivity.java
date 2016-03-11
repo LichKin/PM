@@ -29,13 +29,14 @@ public class MainActivity extends Activity {
     private AppInfoDao appInfoDao;
     private UserDao userDao;
     private List<AppInfo> appInfos;
-    private TextView txtAdd;
+    private TextView txtAdd,txtUser;
     private LinearLayout layoutView;
     private LayoutInflater mInflater;
     private AlertDialog alertDialog;
 
     private EditText edtName, edtCount, edtPassword;
-    private int uid;
+    private User mUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +50,15 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         refreshList();
+        refreshUser();
     }
 
+    /**
+     * initialize view
+     */
     private void setView() {
 
-        uid = getIntent().getIntExtra("userId", 0);
+        mUser = (User) getIntent().getSerializableExtra("user");
         mInflater = LayoutInflater.from(this);
         layoutView = (LinearLayout) mInflater.inflate(R.layout.view_dialog, null);
         edtName = (EditText) layoutView.findViewById(R.id.edt_name);
@@ -65,7 +70,8 @@ public class MainActivity extends Activity {
         userDao = new UserDao(this);
         listView = (ListView) findViewById(R.id.listview);
         txtAdd = (TextView) findViewById(R.id.txt_add);
-        appInfos = appInfoDao.listByUserId(uid);
+        txtUser = (TextView) findViewById(R.id.txt_user);
+        appInfos = appInfoDao.listByUserId(mUser.getId());
         if (appInfos != null) {
             myAdapter = new MyAdapter(MainActivity.this, appInfos);
         } else {
@@ -75,7 +81,17 @@ public class MainActivity extends Activity {
 
     }
 
+
     private void setEvent() {
+
+        txtUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(MainActivity.this,UserActivity.class);
+                in.putExtra("user",mUser);
+                startActivity(in);
+            }
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -96,9 +112,8 @@ public class MainActivity extends Activity {
                             setView(layoutView).setTitle("Add new appinfo").setPositiveButton("Add", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            User user = userDao.getUserById(uid);
                             AppInfo appInfo = new AppInfo(edtName.getText().toString(),
-                                    edtCount.getText().toString(), edtPassword.getText().toString(), user);
+                                    edtCount.getText().toString(), edtPassword.getText().toString(),mUser);
                             appInfoDao.add(appInfo);
                             myAdapter.addItem(appInfo);
                             myAdapter.refresh();
@@ -122,8 +137,18 @@ public class MainActivity extends Activity {
         });
     }
 
+    /**
+     * refresh appinfo list
+     */
     private void refreshList() {
-        myAdapter.setItems(appInfoDao.listByUserId(uid));
+        myAdapter.setItems(appInfoDao.listByUserId(mUser.getId()));
+    }
+
+    /**
+     * refresh current user name
+     */
+    private void refreshUser(){
+        txtUser.setText(userDao.getUserById(mUser.getId()).getName());
     }
 
 

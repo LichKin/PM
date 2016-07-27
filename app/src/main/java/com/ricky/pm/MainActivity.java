@@ -104,6 +104,28 @@ public class MainActivity extends Activity {
             }
         });
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog confrim = new AlertDialog.Builder(MainActivity.this).setTitle("Delete this item?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AppInfo info = myAdapter.getItem(position);
+                                appInfoDao.delete(info);
+                                refreshList();
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).create();
+                confrim.show();
+                return true;
+            }
+        });
+
         txtAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

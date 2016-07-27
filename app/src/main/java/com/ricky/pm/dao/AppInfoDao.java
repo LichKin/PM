@@ -59,6 +59,14 @@ public class AppInfoDao {
         }
     }
 
+    public void delete(AppInfo appinfo){
+        try{
+            appInfoDao.delete(appinfo);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public List<AppInfo> listByUserId(int userId){
         try{
             return appInfoDao.queryBuilder().where().eq("user_id",userId).query();

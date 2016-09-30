@@ -29,6 +29,14 @@ public class AppInfoDao {
         }
     }
 
+    //批量添加
+    public void addAll(List<AppInfo> appinfos){
+        for(AppInfo info:appinfos){
+            add(info);
+        }
+    }
+
+    //添加单条数据
     public void add(AppInfo appInfo){
         try {
             appInfoDao.create(appInfo);

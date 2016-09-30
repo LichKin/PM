@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.ricky.pm.dao.UserDao;
 import com.ricky.pm.model.User;
+import com.ricky.pm.utils.SharedPreferenceUtil;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        SharedPreferenceUtil.initCptPrefrences(getApplicationContext());
         initUser();
         initView();
         setEvent();

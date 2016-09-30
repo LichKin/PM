@@ -90,7 +90,7 @@ public class MyAdapter extends BaseAdapter{
         if(info!=null){
             holder.name.setText(info.getAppname());
             holder.count.setText(info.getAppcount());
-            holder.password.setText(info.getApppassword());
+            holder.password.setText(processPw(info.getApppassword()));
         }
 
         return view;
@@ -101,4 +101,10 @@ public class MyAdapter extends BaseAdapter{
         TextView count;
         TextView password;
     }
+
+    private String processPw(String src){
+        String seen = src.substring(0,4);
+        return seen+"****";
+    }
+
 }

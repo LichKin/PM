@@ -40,6 +40,17 @@
             android:text="User"
             android:textSize="16dp"
             />
+        <ImageView
+            android:id="@+id/img_syc"
+            android:layout_width="36dp"
+            android:padding="5dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/txt_add"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_cached_24dp"
+            />
+
+
     </RelativeLayout>
     <View
         android:background="@color/color_light_grey"

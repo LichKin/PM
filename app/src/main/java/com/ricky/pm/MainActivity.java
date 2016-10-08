@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,6 +61,7 @@ public class MainActivity extends Activity {
     private EditText edtName, edtCount, edtPassword;
     private User mUser;
 
+    private Animation mAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +90,6 @@ public class MainActivity extends Activity {
         edtCount = (EditText) layoutView.findViewById(R.id.edt_count);
         edtPassword = (EditText) layoutView.findViewById(R.id.edt_password);
 
-
         appInfoDao = new AppInfoDao(this);
         userDao = new UserDao(this);
         listView = (ListView) findViewById(R.id.listview);
@@ -102,6 +104,12 @@ public class MainActivity extends Activity {
         }
         listView.setAdapter(myAdapter);
 
+    }
+
+    private void initAnim(){
+        mAnimation = AnimationUtils.loadAnimation(this, R.anim.sync_anim);
+        mAnimation.setFillAfter(true);
+        imgSyc.startAnimation(mAnimation);
     }
 
 
@@ -184,6 +192,7 @@ public class MainActivity extends Activity {
         imgSyc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                initAnim();
                 new SyncPullTask().execute();
             }
         });
@@ -252,18 +261,22 @@ public class MainActivity extends Activity {
                     } else {
                         Log.i("Sync", "Not need to sync");
                     }
+                    imgSyc.clearAnimation();
 
                 } else if (info.getCode() == CommonInfo.CODE_NOT_SYNC) {
                     //第一次使用同步
                     syncPost();
                 } else {
                     processError("请求失败，" + info.getMsg());
+                    imgSyc.clearAnimation();
                 }
 
             } else {
                 processError("请求失败，返回信息为空");
+                imgSyc.clearAnimation();
             }
         }
+
     }
 
 

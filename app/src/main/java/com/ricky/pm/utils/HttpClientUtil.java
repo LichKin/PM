@@ -21,7 +21,11 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,7 +50,26 @@ public class HttpClientUtil {
 	public static int REQUEST_OS_FILE_UPLOAD_TIMEOUT = 200 * 1000;
 
 	private static Log LogUtil;
-	
+
+
+
+	public static boolean checkURL(String url){
+		boolean flag = false;
+		try{
+			HttpURLConnection mHttpURLConnection = (HttpURLConnection) new URL(url).openConnection();
+			int code = mHttpURLConnection.getResponseCode();
+			if(code==200){
+				flag = true;
+			}
+		}catch (MalformedURLException e){
+			e.printStackTrace();
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+
 	/**
 	 * 获取网络状态
 	 * @param context

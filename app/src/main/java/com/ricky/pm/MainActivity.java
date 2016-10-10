@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ricky.pm.adapter.MyAdapter;
@@ -317,6 +318,10 @@ public class MainActivity extends Activity {
 
     private void processError(String msg) {
         Log.e("MainActivty", msg);
+    }
+
+    private void showMsg(String msg){
+        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
     }
 
 

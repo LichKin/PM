@@ -29,6 +29,7 @@ import com.ricky.pm.model.AppListInfo;
 import com.ricky.pm.model.CommonInfo;
 import com.ricky.pm.model.SimpleAppInfo;
 import com.ricky.pm.model.User;
+import com.ricky.pm.utils.HttpClientUtil;
 import com.ricky.pm.utils.SharedPreferenceUtil;
 
 import java.io.IOException;
@@ -194,6 +195,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 initAnim();
+                if(!HttpClientUtil.isNetworkAvailable(MainActivity.this)){
+                    showMsg("无网络连接！");
+                    return;
+                }
+
+                if(!HttpClientUtil.checkURL(Config.CLOUD_SERVER_PATH)){
+                    showMsg("无法连接服务");
+                    return;
+                }
                 new SyncPullTask().execute();
             }
         });

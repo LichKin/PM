@@ -197,11 +197,13 @@ public class MainActivity extends Activity {
                 initAnim();
                 if(!HttpClientUtil.isNetworkAvailable(MainActivity.this)){
                     showMsg("无网络连接！");
+                    imgSyc.clearAnimation();
                     return;
                 }
 
                 if(!HttpClientUtil.checkURL(Config.CLOUD_SERVER_PATH)){
                     showMsg("无法连接服务");
+                    imgSyc.clearAnimation();
                     return;
                 }
                 new SyncPullTask().execute();
